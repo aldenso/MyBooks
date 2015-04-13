@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+    <ul>
+    {% if publisher %}
+    <li>
+    <div><h3>{{ publisher.name }}</h3>
+    <p>{{ publisher.description}}</p></div>
+    </li>
+    {% endif %}
+    </ul>
+
+    <form action="{{ url_for('update_publisher', publisherid='{{publisher.id}}') }}" method="post" name="update_publisher">
+        {{ form.hidden_tag() }}
+        <p>
+        <label for="Publishername">Optional: Please enter Publisher Name:</label>
+        <br>
+          {{ form.name(size=80) }}<br>
+        </p>
+          {{ form.id }}  
+        <p>
+        <label for="Publishername">Optional: Please enter Publisher Description:</label>
+        <br>
+          {{ form.description(size=80) }}<br>
+        </p>
+        <p><input type="submit" class="btn btn-info" value="Update Publisher"></p>
+    </form>
+ 
+
+{% endblock %}

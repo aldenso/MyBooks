@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+    {% if book%}
+    <div>
+    <div class="form-group">
+    <li><h4>{{ book.title }}</h4></li>
+    <form action="{{url_for('update_book', bookid='{{book.id}}')}}" method="GET">
+    <button type='submit' class="btn btn-info xs">Update Book</button>
+    <input type='hidden' value='{{ book.id }}' name='bookid'>
+    </form>
+    </div>
+    <label for="Author">Author:</label>
+    <input class="form-control" type="text" placeholder="{{book.fullname}}" readonly>
+    <label for="Year">Year of Publication:</label>
+    <input class="form-control" type="text" placeholder="{{book.year}}" readonly>
+    <label for="Publisher">Publisher:</label>
+    <input class="form-control" type="text" placeholder="{{book.name}}" readonly>
+    <label for="Synopsis">Synopsis:</label>
+    <input class="form-control" type="text" placeholder="{{book.synopsis}}" readonly>
+    <label for="Registered">Registered on:</label>
+    <input class="form-control" type="text" placeholder="{{book.timestamp}}" readonly>
+    </div>
+    {% else %}
+    <li><em>Unbelievable, the book doesn't exist!</em></li>
+    {% endif %}
+
+{% endblock %}

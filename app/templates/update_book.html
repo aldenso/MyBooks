@@ -1,0 +1,105 @@
+{% extends "index.html" %}
+{% block body %}
+
+{% if book %}
+<h4><mark>{{ book.title }}</mark></h4>
+{% endif %}
+
+{% if error %}
+<mark>{{ error }}</mark>
+{% endif %}
+
+<script src="/static/js/typeahead.js"></script>
+
+<form action="" method="POST" name="update_book">
+    {{ form.hidden_tag() }}
+    {{form.id}}
+    <div class="form-group">
+        <label for="Title">Enter Title:</label>
+        <br>
+          {{ form.title(size=80) }}
+        <br>
+    </div>
+
+    <div class="form-group">
+    <label for="Year">Year of publication:</label>
+    <br>
+      {{ form.year(size=80) }}
+      <br>
+      <input class="form-control" type="text" placeholder="{{book.year}}" readonly>
+    </div>
+    <div class="form-group">
+    <label for="Synopsis">Enter synopsis:</label>
+    <br>
+      {{ form.synopsis(size=80) }}
+      <br>
+    <input class="form-control" type="text" placeholder="{{book.synopsis}}" readonly>
+    <br>
+    </div>
+    <button type="submit" class="btn btn-info">Update</button>
+</form>
+<br>
+
+<form action="" method="POST" name="add_book">
+    {{ form.hidden_tag() }}
+    {{form.id}}
+    <div class="form-group">
+        <table class="table">
+        <form  class="navbar-form" role="search">
+        <div id="remote" class="form-group">
+        <label for="Title">Search Author:</label>
+        <input  type="text" class="typeahead" placeholder="Find Author" name="author">
+        </div>
+        </form>
+        <input class="form-control" type="text" placeholder="{{author.fullname}}" readonly>
+        <form  class="navbar-form" role="search">
+        <div id="publisherbox" class="form-group">
+        <label for="Title">Search Publisher:</label>
+        <input  type="text" class="typeahead" placeholder="Find Publisher" name="publisher">
+        </div>
+        </form>
+        <input class="form-control" type="text" placeholder="{{publisher.name}}" readonly>
+        </table>
+    </div>
+    <button type="submit" class="btn btn-info">Update Author/Publisher</button>
+</form>
+
+<script type="text/javascript">
+var publishernames = new Bloodhound({
+  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('publisher'),
+  queryTokenizer: Bloodhound.tokenizers.whitespace,
+  remote: '/get_publisher/%QUERY'
+});
+ 
+publishernames.initialize();
+ 
+$('#publisherbox .typeahead').typeahead(null, {
+  hint: true,
+  highlight: true,
+  name: 'publishernames',
+  displayKey: 'publisher',
+  minLength: 3,
+  source: publishernames.ttAdapter()
+});
+</script>
+
+<script type="text/javascript">
+var names = new Bloodhound({
+  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('author'),
+  queryTokenizer: Bloodhound.tokenizers.whitespace,
+  remote: '/get_author/%QUERY'
+});
+ 
+names.initialize();
+ 
+$('#remote .typeahead').typeahead(null, {
+  hint: true,
+  highlight: true,
+  name: 'names',
+  displayKey: 'author',
+  minLength: 3,
+  source: names.ttAdapter()
+});
+</script>
+
+{% endblock %}

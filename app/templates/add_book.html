@@ -1,0 +1,94 @@
+{% extends "index.html" %}
+{% block body %}
+
+{% if error %}
+<mark>{{ error }}</mark>
+{% endif %}
+
+<script src="/static/js/typeahead.js"></script>
+
+<form action="" method="POST" name="add_book">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        <label for="Title">Enter Title:</label>
+          <br>
+          {{ form.title(size=80) }}
+          <br>
+    </div>
+
+    <div class="form-group">
+    <label for="year">Year of publication:</label>
+      <br>
+      {{ form.year(size=80) }}
+      <br>
+    </div>
+    <div class="form-group">
+    <label for="year">Enter synopsis:</label>
+      <br>
+      {{ form.synopsis(size=200) }}
+      <br>
+    </div>
+    <div class="form-group">
+        <table class="table">
+        <form  class="navbar-form" role="search">
+        <div id="remote" class="form-group">
+        <label for="Title">Search Author:</label>
+        <input  type="text" class="typeahead" placeholder="Find Author" name="author">
+        </div>
+        </form>
+        <form  class="navbar-form" role="search">
+        <div id="publisherbox" class="form-group">
+        <label for="Title">Search Publisher:</label>
+        <input  type="text" class="typeahead" placeholder="Find Publisher" name="publisher">
+        </div>
+        </form>
+        </table>
+    </div>
+    <button type="submit" class="btn btn-info">Add Book</button>
+</form>
+
+
+
+
+<!--<div id="remote">
+  <input class="typeahead" type="text" placeholder="Title">
+</div>-->
+<script type="text/javascript">
+var publishernames = new Bloodhound({
+  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('publisher'),
+  queryTokenizer: Bloodhound.tokenizers.whitespace,
+  remote: '/get_publisher/%QUERY'
+});
+ 
+publishernames.initialize();
+ 
+$('#publisherbox .typeahead').typeahead(null, {
+  hint: true,
+  highlight: true,
+  name: 'publishernames',
+  displayKey: 'publisher',
+  minLength: 3,
+  source: publishernames.ttAdapter()
+});
+</script>
+
+<script type="text/javascript">
+var names = new Bloodhound({
+  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('author'),
+  queryTokenizer: Bloodhound.tokenizers.whitespace,
+  remote: '/get_author/%QUERY'
+});
+ 
+names.initialize();
+ 
+$('#remote .typeahead').typeahead(null, {
+  hint: true,
+  highlight: true,
+  name: 'names',
+  displayKey: 'author',
+  minLength: 3,
+  source: names.ttAdapter()
+});
+</script>
+
+{% endblock %}

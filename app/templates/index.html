@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+    {% for post in posts %}
+    <div><p>{{ post }}</p></div>
+    {% endfor %}
+ 
+
+{% endblock %}

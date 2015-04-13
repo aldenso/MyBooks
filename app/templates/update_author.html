@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+    <ul>
+    {% if author%}
+    <li>
+    <div><h3>{{ author.fullname }}</h3></div>
+    </li>
+    {% endif %}
+    </ul>
+
+    <form action="{{ url_for('update_author', authorid='{{author.id}}') }}" method="post" name="update_author">
+        {{ form.hidden_tag() }}
+        <p>
+        <label for="Authorfirstname">Optional: Please enter Author First Name:</label>
+        <br>
+          {{ form.firstname(size=80) }}<br>
+        </p>
+          {{ form.id }}  
+        <p>
+        <label for="Authorlastname">Optional: Please enter Author Last Name:</label>
+        <br>
+          {{ form.lastname(size=80) }}<br>
+        </p>
+        <p>
+        <label for="Authorbiography">Optional: Please enter Author Biography:</label>
+        <br>
+          {{ form.biography(size=200) }}<br>
+        </p>
+        <p><input type="submit" class="btn btn-info" value="Update Author"></p>
+    </form>
+ 
+
+{% endblock %}

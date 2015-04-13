@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+    {% if numauthors %}
+    <p>Authors registered: <strong>{{numauthors}}</strong></p>
+    {% endif %}
+
+    <ul>
+    {% if authors %}
+    {% for author in authors.items %}
+    <li>
+    <form action="{{url_for('info_author', authorid='{{author.id}}')}}" method="GET">
+    <button type='submit' class="btn btn-default"><h4>{{ author.fullname }}</h4></button>
+    <input type='hidden' value='{{ author.id }}' name='authorid'>
+    </form>
+    <br>
+    <table class="table">
+    <form action="{{ url_for('update_author', authorid='{{author.id}}') }}" method='GET' class='update_author'>
+    <input type='hidden' value='{{ author.id }}' name='authorid'>
+    <button type='submit' class="btn btn-info btn-sm">Update</button>
+    </form>
+    <form action="{{ url_for('delete_author', authorid='{{author.id}}') }}" method='POST' class='delete_author'>
+    <input type='hidden' value='{{ author.id }}' name='authorid'>
+    <button type='submit' class="btn btn-danger btn-sm">Remove</button>
+    </form>
+    </table>
+    </li>
+	{% else %}
+	<li><em>Unbelievable.  No entries here so far</em></li>
+    {% endfor %}
+    {% endif %}
+    </ul>
+
+
+
+    {% if authors.has_prev %}
+    <form action="{{ url_for('list_authors', page=authors.prev_num) }}" method="GET" class='pagination'>
+    <button type='submit' class="btn btn-success btn-xs">Previous Page</button>
+    </form>
+    {% else %}
+    <button type='submit' class="btn btn-default btn-xs" disabled="disabled">Previous Page</button>
+    {% endif %}
+    
+
+    {% if authors.has_next %}
+    <form action="{{ url_for('list_authors', page=authors.next_num) }}" method="GET" class='pagination'>
+    <button type='submit' class="btn btn-success btn-xs">Next Page</button>
+    </form>
+    {% else %}
+    <button type='submit' class="btn btn-default btn-xs" disabled="disabled">Previous Page</button>
+    {% endif %}
+    
+ 
+
+{% endblock %}

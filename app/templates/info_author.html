@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+    <div class="form-group">
+    <li><h4>{{ author.fullname }}</h4></li>
+    <form action="{{url_for('update_author', authorid='{{author.id}}')}}" method="GET">
+    <button type='submit' class="btn btn-info xs">Update Author</button>
+    <input type='hidden' value='{{ author.id }}' name='authorid'>
+    </form>
+    <br>
+    {% if author.biography %}
+    <p>{{ author.biography}}</p>
+    {% else %}
+    <li><em>Unbelievable, doesn't have biography registered!</em></li>
+    {% endif %}
+    {% if books %}    
+    <label for="Author">Author of:</label>
+    {% for book in books %}
+    </div>
+
+    <input class="form-control" type="text" placeholder="{{book.title}}" readonly>
+    <input class="form-control" type="text" placeholder="{{book.year}}" readonly>
+    {% endfor %}
+    {% else %}
+    <li><em>Unbelievable, doesn't have book registered!</em></li>
+    {% endif %}
+
+
+
+{% endblock %}
