@@ -2,9 +2,7 @@ MyBooks
 =======
 
 This is an example of Python and Flask that shows how to create a site to store
-information about books.
-
-Is not the most sophisticated work in flask, but it works pretty well.
+information about books, is not the most sophisticated work in flask, but it works pretty well.
 
 Components:
 Python2, Flask, Bootstrap, Jquery, OpenID, SQLAlchemy
